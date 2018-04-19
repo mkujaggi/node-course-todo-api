@@ -53,5 +53,24 @@ UserSchema.methods.generateAuthTokens=function(){
         return token;
     });
 };
+
+UserSchema.statics.findByToken=function(token){
+    var User=this;
+
+    var decoded=undefined;
+    try {
+        decoded=jwt.verify(token,'abc123');
+    } catch (error) {
+        // return new Promise((resolve,reject)=>{
+        //     reject();
+        // });
+        return Promise.reject()
+    }
+    return User.findOne({
+        '_id':decoded._id,
+        'tokens.token':token,
+        'tokens.access':'auth'
+    });
+};
 var User=mongoose.model('User',UserSchema);
 module.exports={User};
