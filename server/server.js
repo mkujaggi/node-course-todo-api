@@ -1,4 +1,5 @@
-const _=require('lodash')
+require('./config/config');
+const _=require('lodash');
 const {ObjectID}=require('mongodb');
 const express=require('express');
 const bodyParser=require('body-parser');
@@ -106,7 +107,7 @@ var authenticate=(req,res,next)=>{
 };
 
 app.get('/users/me',authenticate,(req,res)=>{
-   res.send(red.user);
+   res.send(req.user);
 });
 app.listen(port,()=>{
     console.log(`Started onport ${port}`);
